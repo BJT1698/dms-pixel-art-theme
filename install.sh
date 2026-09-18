@@ -211,7 +211,14 @@ if command -v helium-browser &>/dev/null || [ -d "$HOME/.config/net.imput.helium
     log_ok "Helium Browser theme and animated startpage installed."
 fi
 
-# 10. Restart DMS if running
+# 10. Install Neovim Pixel Art Plugin
+log_info "Installing Neovim Pixel Art theme plugin..."
+NVIM_PACK_DIR="$HOME/.local/share/nvim/site/pack/pixel-art/start/pixel-art.nvim"
+mkdir -p "$NVIM_PACK_DIR"
+cp -r "$SCRIPT_DIR/neovim/"* "$NVIM_PACK_DIR/"
+log_ok "Neovim plugin installed to $NVIM_PACK_DIR."
+
+# 11. Restart DMS if running
 log_info "Applying changes..."
 if systemctl --user is-active dms.service &>/dev/null; then
     systemctl --user restart dms.service
@@ -224,4 +231,4 @@ fi
 
 echo ""
 echo -e "${CLR_BOLD}${CLR_GREEN}Installation complete!${CLR_RESET}"
-echo -e "DMS, Kitty, and Helium Browser have been configured with the Pixel Art theme."
+echo -e "DMS, Kitty, Helium Browser, and Neovim have been configured with the Pixel Art theme."

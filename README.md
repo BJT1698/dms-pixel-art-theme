@@ -1,8 +1,8 @@
 # DankMaterialShell Pixel Art Theme
 
-A comprehensive retro Pixel Art theme and environment setup for [DankMaterialShell](https://github.com/AvengeMedia/DankMaterialShell) and [Helium Browser](https://github.com/imputnet/helium-linux) on Linux (Wayland / Niri / Hyprland).
+A comprehensive retro Pixel Art theme and environment setup for [DankMaterialShell](https://github.com/AvengeMedia/DankMaterialShell), [Helium Browser](https://github.com/imputnet/helium-linux), and [Neovim](https://neovim.io) on Linux (Wayland / Niri / Hyprland).
 
-Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color palettes, matching terminal typography, seamless bar docking, browser themes, and an animated synthwave pixel art startpage.
+Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color palettes, matching terminal typography, seamless bar docking, browser themes, an animated synthwave pixel art startpage, and a native Neovim colorscheme plugin.
 
 ---
 
@@ -28,6 +28,11 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
     - Multi-engine search bar (Google, DuckDuckGo, GitHub, YouTube, Reddit, ArchWiki) with bang shortcuts.
     - Customizable pixel bookmarks grid with modal editor.
     - Config modal: change color themes, adjust grid speed, toggle CRT scanlines, and customize time format.
+- **Neovim Colorscheme Plugin (`pixel-art.nvim`)**:
+  - Native Lua colorscheme supporting all 4 palettes.
+  - Full highlight coverage for Treesitter, LSP diagnostics, NvimTree, CMP, Alpha dashboard, Telescope, Which-Key, and ToggleTerm.
+  - Transparent background support out of the box.
+  - Included Lualine statusline theme.
 - **Sharp Geometry**:
   - Complete removal of border radius across the bar, popups, and widgets (`cornerRadius: 0`).
   - Bar configured as a docked edge strip with no padding or backgrounds.
@@ -65,10 +70,23 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 │       ├── css/                # Pixel stylesheets and scanlines
 │       ├── js/                 # Canvas engine, clock, search, bookmarks
 │       └── fonts/              # Embedded pixel typography
+├── neovim/                     # Neovim colorscheme plugin
+│   ├── colors/                 # Color entry points
+│   │   ├── pixel-art.lua
+│   │   ├── pixel-art-neon.lua
+│   │   ├── pixel-art-pico8.lua
+│   │   ├── pixel-art-gameboy.lua
+│   │   └── pixel-art-snes.lua
+│   └── lua/pixel-art/          # Core plugin modules
+│       ├── init.lua
+│       ├── palette.lua
+│       ├── highlights.lua
+│       └── lualine.lua
 └── configs/
     ├── dms-settings.json       # Reference DMS configuration
     ├── kitty.conf              # Reference Kitty terminal config
-    └── niri-corner-radius.kdl  # Niri window manager config snippet
+    ├── niri-corner-radius.kdl  # Niri window manager config snippet
+    └── nvim-pixel-art.lua      # Neovim Lazy.nvim snippet
 ```
 
 ---
@@ -77,7 +95,7 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 
 - **DankMaterialShell** installed on your system.
 - **Dependencies**: `git`, `python3`, `fontconfig` (`fc-cache`).
-- **Optional**: [Helium Browser](https://github.com/imputnet/helium-linux), [Kitty](https://sw.kovidgoyal.net/kitty/) terminal, [Niri](https://github.com/YaLTeR/niri) window manager.
+- **Optional**: [Helium Browser](https://github.com/imputnet/helium-linux), [Neovim](https://neovim.io), [Kitty](https://sw.kovidgoyal.net/kitty/) terminal, [Niri](https://github.com/YaLTeR/niri) window manager.
 
 ---
 
@@ -100,7 +118,52 @@ Run the installation script:
 7. Backs up existing `settings.json` and configures DMS with zero corner radius, pixel fonts, and edge docking.
 8. Configures Kitty with `Monocraft` font (with automatic backup).
 9. Installs Helium Browser themes and animated startpage into `~/.config/net.imput.helium/` and enables them via `~/.config/helium-browser-flags.conf`.
-10. Restarts DankMaterialShell to apply changes.
+10. Installs the Neovim colorscheme plugin to `~/.local/share/nvim/site/pack/pixel-art/start/pixel-art.nvim`.
+11. Restarts DankMaterialShell to apply changes.
+
+---
+
+## Neovim Setup
+
+### Using Lazy.nvim
+
+Add the following spec to your Neovim plugin list (`init.lua` or `lua/plugins/theme.lua`):
+
+```lua
+{
+  "BJT1698/dms-pixel-art-theme",
+  name = "pixel-art.nvim",
+  lazy = false,
+  priority = 1000,
+  opts = {
+    variant = "arcade-neon", -- "arcade-neon" | "pico-8" | "game-boy" | "16bit-rpg"
+    transparent = true,
+    styles = {
+      comments = { italic = false },
+      keywords = { bold = true },
+      functions = { bold = true },
+      sidebars = "transparent",
+      floats = "transparent",
+    },
+  },
+  config = function(_, opts)
+    require("pixel-art").setup(opts)
+    vim.cmd([[colorscheme pixel-art]])
+  end,
+}
+```
+
+### Direct Colorscheme Commands
+
+You can load specific variants directly via Vim commands:
+
+```vim
+:colorscheme pixel-art         " Loads configured default (Arcade Neon)
+:colorscheme pixel-art-neon    " Loads Arcade Neon
+:colorscheme pixel-art-pico8   " Loads PICO-8
+:colorscheme pixel-art-gameboy " Loads Game Boy DMG
+:colorscheme pixel-art-snes    " Loads 16-Bit RPG
+```
 
 ---
 
@@ -207,6 +270,9 @@ Open DankMaterialShell Settings -> Custom Theme, or edit `theme.json` to swap pa
 
 ### In Startpage:
 Click the **THEME** button in the bottom-right corner or press **T** on the keyboard to cycle through themes in real time.
+
+### In Neovim:
+Execute `:colorscheme pixel-art-neon`, `:colorscheme pixel-art-pico8`, `:colorscheme pixel-art-gameboy`, or `:colorscheme pixel-art-snes`.
 
 ---
 

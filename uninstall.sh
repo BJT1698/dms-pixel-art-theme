@@ -67,7 +67,15 @@ if [ -f "$HELIUM_FLAGS" ]; then
 fi
 log_ok "Helium Browser theme and startpage removed."
 
-# 5. Restore or Reset DMS Settings
+# 5. Remove Neovim Plugin
+NVIM_PACK_DIR="$HOME/.local/share/nvim/site/pack/pixel-art"
+if [ -d "$NVIM_PACK_DIR" ]; then
+    log_info "Removing Neovim plugin..."
+    rm -rf "$NVIM_PACK_DIR"
+    log_ok "Neovim plugin removed."
+fi
+
+# 6. Restore or Reset DMS Settings
 DMS_CONFIG_DIR="$HOME/.config/DankMaterialShell"
 SETTINGS_FILE="$DMS_CONFIG_DIR/settings.json"
 LATEST_BACKUP=$(ls -t "$DMS_CONFIG_DIR"/settings.json.bak.* 2>/dev/null | head -n 1 || true)
@@ -100,7 +108,7 @@ EOF
     log_ok "Settings reset."
 fi
 
-# 6. Restore Kitty Configuration
+# 7. Restore Kitty Configuration
 KITTY_CONF="$HOME/.config/kitty/kitty.conf"
 KITTY_BACKUP=$(ls -t "$HOME/.config/kitty"/kitty.conf.bak.* 2>/dev/null | head -n 1 || true)
 if [ -n "$KITTY_BACKUP" ] && [ -f "$KITTY_BACKUP" ]; then
@@ -109,7 +117,7 @@ if [ -n "$KITTY_BACKUP" ] && [ -f "$KITTY_BACKUP" ]; then
     log_ok "Kitty configuration restored."
 fi
 
-# 7. Restart DMS
+# 8. Restart DMS
 log_info "Restarting DankMaterialShell..."
 if systemctl --user is-active dms.service &>/dev/null; then
     systemctl --user restart dms.service
