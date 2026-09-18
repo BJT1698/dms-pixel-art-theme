@@ -50,7 +50,24 @@ if [ -f "$ENV_FILE" ]; then
     log_ok "Environment configuration cleaned."
 fi
 
-# 4. Restore or Reset DMS Settings
+# 4. Clean up Helium Browser configuration
+HELIUM_DIR="$HOME/.config/net.imput.helium"
+if [ -d "$HELIUM_DIR/themes" ]; then
+    rm -rf "$HELIUM_DIR/themes"
+fi
+if [ -d "$HELIUM_DIR/startpage" ]; then
+    rm -rf "$HELIUM_DIR/startpage"
+fi
+HELIUM_FLAGS="$HOME/.config/helium-browser-flags.conf"
+if [ -f "$HELIUM_FLAGS" ]; then
+    sed -i '/\-\-load-extension/d' "$HELIUM_FLAGS"
+    if [ ! -s "$HELIUM_FLAGS" ]; then
+        rm -f "$HELIUM_FLAGS"
+    fi
+fi
+log_ok "Helium Browser theme and startpage removed."
+
+# 5. Restore or Reset DMS Settings
 DMS_CONFIG_DIR="$HOME/.config/DankMaterialShell"
 SETTINGS_FILE="$DMS_CONFIG_DIR/settings.json"
 LATEST_BACKUP=$(ls -t "$DMS_CONFIG_DIR"/settings.json.bak.* 2>/dev/null | head -n 1 || true)
@@ -83,7 +100,7 @@ EOF
     log_ok "Settings reset."
 fi
 
-# 5. Restore Kitty Configuration
+# 6. Restore Kitty Configuration
 KITTY_CONF="$HOME/.config/kitty/kitty.conf"
 KITTY_BACKUP=$(ls -t "$HOME/.config/kitty"/kitty.conf.bak.* 2>/dev/null | head -n 1 || true)
 if [ -n "$KITTY_BACKUP" ] && [ -f "$KITTY_BACKUP" ]; then
@@ -92,7 +109,7 @@ if [ -n "$KITTY_BACKUP" ] && [ -f "$KITTY_BACKUP" ]; then
     log_ok "Kitty configuration restored."
 fi
 
-# 6. Restart DMS
+# 7. Restart DMS
 log_info "Restarting DankMaterialShell..."
 if systemctl --user is-active dms.service &>/dev/null; then
     systemctl --user restart dms.service

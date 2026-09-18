@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "version": "1.0.0",
+  "name": "DMS Pixel Art - Arcade Neon",
+  "description": "Arcade Neon Pixel Art theme for Helium / Chromium matching DankMaterialShell",
+  "theme": {
+    "colors": {
+      "frame": [7, 8, 14],
+      "frame_inactive": [5, 6, 10],
+      "frame_incognito": [7, 8, 14],
+      "frame_incognito_inactive": [5, 6, 10],
+      "toolbar": [14, 16, 26],
+      "toolbar_button_icon": [0, 240, 255],
+      "tab_text": [240, 246, 255],
+      "tab_background_text": [157, 167, 201],
+      "tab_background_text_inactive": [100, 110, 140],
+      "bookmark_text": [240, 246, 255],
+      "omnibox_background": [22, 26, 42],
+      "omnibox_text": [240, 246, 255],
+      "ntp_background": [7, 8, 14],
+      "ntp_text": [240, 246, 255]
+    }
+  }
+}

@@ -1,8 +1,8 @@
 # DankMaterialShell Pixel Art Theme
 
-A comprehensive retro Pixel Art theme and environment setup for [DankMaterialShell](https://github.com/AvengeMedia/DankMaterialShell) on Linux (Wayland / Niri / Hyprland).
+A comprehensive retro Pixel Art theme and environment setup for [DankMaterialShell](https://github.com/AvengeMedia/DankMaterialShell) and [Helium Browser](https://github.com/imputnet/helium-linux) on Linux (Wayland / Niri / Hyprland).
 
-Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color palettes, matching terminal typography, and seamless bar docking.
+Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color palettes, matching terminal typography, seamless bar docking, browser themes, and an animated synthwave pixel art startpage.
 
 ---
 
@@ -20,6 +20,14 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 - **Pixel UI Icons**:
   - Over 70 handcrafted white 16x16 SVG pixel icons for status bar controls (WiFi, Bluetooth, Battery, Volume, Notifications, Settings, Power, etc.).
   - Custom `DankIcon` QML component with 1:1 aspect-ratio preservation and dynamic theme colorization.
+- **Helium Browser Integration**:
+  - **4 Matching Browser Themes**: Native Chromium/Helium theme manifests for Arcade Neon, PICO-8, Game Boy, and 16-Bit RPG.
+  - **Animated Pixel Art Startpage (New Tab)**:
+    - Real-time 60fps canvas engine with moving perspective grid, sliced retro glowing sun, jagged mountains, and starfield.
+    - Pixel clock with seconds and date.
+    - Multi-engine search bar (Google, DuckDuckGo, GitHub, YouTube, Reddit, ArchWiki) with bang shortcuts.
+    - Customizable pixel bookmarks grid with modal editor.
+    - Config modal: change color themes, adjust grid speed, toggle CRT scanlines, and customize time format.
 - **Sharp Geometry**:
   - Complete removal of border radius across the bar, popups, and widgets (`cornerRadius: 0`).
   - Bar configured as a docked edge strip with no padding or backgrounds.
@@ -45,6 +53,18 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 │   └── DankIcon.qml            # Custom QML component for pixel icon rendering
 ├── wallpapers/
 │   └── pixel_art_neon_horizon.jpg
+├── helium/
+│   ├── themes/                 # Helium / Chromium browser themes
+│   │   ├── arcade-neon/        # Arcade Neon theme manifest
+│   │   ├── pico-8/             # PICO-8 theme manifest
+│   │   ├── game-boy/           # Game Boy DMG theme manifest
+│   │   └── 16bit-rpg/          # 16-Bit RPG theme manifest
+│   └── startpage/              # Animated pixel art new tab extension
+│       ├── manifest.json       # Extension manifest V3
+│       ├── newtab.html         # Startpage layout
+│       ├── css/                # Pixel stylesheets and scanlines
+│       ├── js/                 # Canvas engine, clock, search, bookmarks
+│       └── fonts/              # Embedded pixel typography
 └── configs/
     ├── dms-settings.json       # Reference DMS configuration
     ├── kitty.conf              # Reference Kitty terminal config
@@ -57,7 +77,7 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 
 - **DankMaterialShell** installed on your system.
 - **Dependencies**: `git`, `python3`, `fontconfig` (`fc-cache`).
-- **Optional**: [Kitty](https://sw.kovidgoyal.net/kitty/) terminal, [Niri](https://github.com/YaLTeR/niri) window manager.
+- **Optional**: [Helium Browser](https://github.com/imputnet/helium-linux), [Kitty](https://sw.kovidgoyal.net/kitty/) terminal, [Niri](https://github.com/YaLTeR/niri) window manager.
 
 ---
 
@@ -79,7 +99,29 @@ Run the installation script:
 6. Downloads and links the Pixora icon theme for applications.
 7. Backs up existing `settings.json` and configures DMS with zero corner radius, pixel fonts, and edge docking.
 8. Configures Kitty with `Monocraft` font (with automatic backup).
-9. Restarts DankMaterialShell to apply changes.
+9. Installs Helium Browser themes and animated startpage into `~/.config/net.imput.helium/` and enables them via `~/.config/helium-browser-flags.conf`.
+10. Restarts DankMaterialShell to apply changes.
+
+---
+
+## Helium Browser Setup
+
+### Loading via Extensions Page (Developer Mode)
+
+1. Open Helium and navigate to `helium://extensions` (or `chrome://extensions`).
+2. Toggle **Developer mode** in the top-right corner.
+3. Click **Load unpacked** and select the directory:
+   - For the startpage: `helium/startpage/`
+   - For the theme: `helium/themes/arcade-neon/` (or any preferred variant)
+4. Open a new tab to see the animated synthwave pixel art startpage.
+
+### Automated Loading via Flags
+
+To load the extension automatically on browser launch, add the following line to `~/.config/helium-browser-flags.conf`:
+
+```conf
+--load-extension=/path/to/dms-pixel-art-theme/helium/startpage,/path/to/dms-pixel-art-theme/helium/themes/arcade-neon
+```
 
 ---
 
@@ -156,11 +198,15 @@ window-rule {
 
 ## Switching Variants
 
+### In DankMaterialShell:
 Open DankMaterialShell Settings -> Custom Theme, or edit `theme.json` to swap palettes:
 1. **Arcade Neon**
 2. **PICO-8**
 3. **Game Boy**
 4. **16-Bit RPG**
+
+### In Startpage:
+Click the **THEME** button in the bottom-right corner or press **T** on the keyboard to cycle through themes in real time.
 
 ---
 

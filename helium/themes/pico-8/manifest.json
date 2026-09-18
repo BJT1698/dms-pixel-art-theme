@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "version": "1.0.0",
+  "name": "DMS Pixel Art - PICO-8",
+  "description": "PICO-8 8-bit theme for Helium / Chromium matching DankMaterialShell",
+  "theme": {
+    "colors": {
+      "frame": [0, 0, 0],
+      "frame_inactive": [0, 0, 0],
+      "frame_incognito": [0, 0, 0],
+      "frame_incognito_inactive": [0, 0, 0],
+      "toolbar": [29, 43, 83],
+      "toolbar_button_icon": [41, 173, 255],
+      "tab_text": [255, 241, 232],
+      "tab_background_text": [194, 195, 199],
+      "tab_background_text_inactive": [95, 87, 79],
+      "bookmark_text": [255, 241, 232],
+      "omnibox_background": [42, 61, 115],
+      "omnibox_text": [255, 241, 232],
+      "ntp_background": [0, 0, 0],
+      "ntp_text": [255, 241, 232]
+    }
+  }
+}

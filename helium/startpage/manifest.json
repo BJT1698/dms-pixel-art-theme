@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "DMS Pixel Art Startpage",
+  "version": "1.0.0",
+  "description": "Animated retro synthwave pixel art startpage and new tab page matching DankMaterialShell",
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "action": {
+    "default_title": "DMS Pixel Art Startpage"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

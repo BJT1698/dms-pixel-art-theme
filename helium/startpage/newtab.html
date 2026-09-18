@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Art Startpage</title>
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-theme="arcade-neon">
+  <!-- Background Canvas for Animated Pixel Art -->
+  <canvas id="pixelCanvas"></canvas>
+
+  <!-- CRT Scanlines Overlay -->
+  <div id="crtOverlay" class="crt-scanlines"></div>
+
+  <!-- Main Startpage Content -->
+  <main class="startpage-container">
+    <!-- Header with Digital Clock & Date -->
+    <header class="clock-section">
+      <div id="clockTime" class="pixel-clock">00:00:00</div>
+      <div id="clockDate" class="pixel-date">MONDAY, 01 JANUARY 2026</div>
+    </header>
+
+    <!-- Search Section -->
+    <section class="search-section">
+      <form id="searchForm" class="search-container" autocomplete="off">
+        <div class="search-engine-badge" id="engineBadge" title="Click to change search engine">
+          <span id="engineIcon" class="engine-icon">G</span>
+        </div>
+        <input 
+          type="text" 
+          id="searchInput" 
+          class="pixel-input" 
+          placeholder="SEARCH THE WEB OR TYPE A URL..." 
+          autofocus 
+          spellcheck="false"
+        >
+        <button type="submit" class="pixel-btn search-submit-btn" title="Search">
+          <span>GO</span>
+        </button>
+      </form>
+      <div class="search-engines-menu hidden" id="enginesMenu">
+        <button type="button" class="engine-opt" data-engine="google" data-icon="G">Google</button>
+        <button type="button" class="engine-opt" data-engine="duckduckgo" data-icon="D">DuckDuckGo</button>
+        <button type="button" class="engine-opt" data-engine="github" data-icon="GH">GitHub</button>
+        <button type="button" class="engine-opt" data-engine="youtube" data-icon="YT">YouTube</button>
+        <button type="button" class="engine-opt" data-engine="reddit" data-icon="R">Reddit</button>
+        <button type="button" class="engine-opt" data-engine="archwiki" data-icon="AW">ArchWiki</button>
+      </div>
+    </section>
+
+    <!-- Bookmarks Grid -->
+    <section class="bookmarks-section">
+      <div class="bookmarks-grid" id="bookmarksGrid">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Control Buttons (Bottom Corner) -->
+  <div class="bottom-controls">
+    <button id="themeToggleBtn" class="pixel-btn icon-btn" title="Cycle Theme (Press T)">
+      <span class="btn-text">THEME</span>
+    </button>
+    <button id="settingsToggleBtn" class="pixel-btn icon-btn" title="Settings">
+      <span class="btn-text">CONFIG</span>
+    </button>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal-overlay hidden">
+    <div class="pixel-modal">
+      <div class="modal-header">
+        <h2>SYSTEM CONFIG</h2>
+        <button id="closeSettingsBtn" class="pixel-btn close-btn">X</button>
+      </div>
+      <div class="modal-body">
+        <div class="config-row">
+          <label for="themeSelect">Color Theme:</label>
+          <select id="themeSelect" class="pixel-select">
+            <option value="arcade-neon">Arcade Neon</option>
+            <option value="pico-8">PICO-8 8-Bit</option>
+            <option value="game-boy">Game Boy DMG</option>
+            <option value="16bit-rpg">16-Bit RPG</option>
+          </select>
+        </div>
+        <div class="config-row">
+          <label for="gridSpeed">Grid Speed:</label>
+          <select id="gridSpeed" class="pixel-select">
+            <option value="1">Normal (1x)</option>
+            <option value="1.5">Fast (1.5x)</option>
+            <option value="0.5">Slow (0.5x)</option>
+            <option value="0">Paused (0x)</option>
+          </select>
+        </div>
+        <div class="config-row">
+          <label for="crtToggle">CRT Scanlines:</label>
+          <input type="checkbox" id="crtToggle" class="pixel-checkbox" checked>
+        </div>
+        <div class="config-row">
+          <label for="clockSecondsToggle">Show Seconds:</label>
+          <input type="checkbox" id="clockSecondsToggle" class="pixel-checkbox" checked>
+        </div>
+        <div class="config-row">
+          <label for="militaryTimeToggle">24-Hour Time:</label>
+          <input type="checkbox" id="militaryTimeToggle" class="pixel-checkbox" checked>
+        </div>
+        <div class="config-actions">
+          <button id="addBookmarkBtn" class="pixel-btn">+ ADD BOOKMARK</button>
+          <button id="resetDefaultsBtn" class="pixel-btn danger-btn">RESET DEFAULTS</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Bookmark Modal -->
+  <div id="bookmarkModal" class="modal-overlay hidden">
+    <div class="pixel-modal">
+      <div class="modal-header">
+        <h2 id="bookmarkModalTitle">ADD BOOKMARK</h2>
+        <button id="closeBookmarkBtn" class="pixel-btn close-btn">X</button>
+      </div>
+      <form id="bookmarkForm" class="modal-body">
+        <input type="hidden" id="bookmarkIndex">
+        <div class="config-row">
+          <label for="bmTitle">Title:</label>
+          <input type="text" id="bmTitle" class="pixel-input" placeholder="e.g. GitHub" required>
+        </div>
+        <div class="config-row">
+          <label for="bmUrl">URL:</label>
+          <input type="url" id="bmUrl" class="pixel-input" placeholder="https://..." required>
+        </div>
+        <div class="config-row">
+          <label for="bmTag">Short Tag (1-3 chars):</label>
+          <input type="text" id="bmTag" class="pixel-input" placeholder="GH" maxlength="3" required>
+        </div>
+        <div class="config-actions">
+          <button type="submit" class="pixel-btn">SAVE</button>
+          <button type="button" id="deleteBmBtn" class="pixel-btn danger-btn hidden">DELETE</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/canvas.js"></script>
+  <script src="js/clock.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/bookmarks.js"></script>
+  <script src="js/settings.js"></script>
+</body>
+</html>

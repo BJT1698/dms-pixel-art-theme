@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "version": "1.0.0",
+  "name": "DMS Pixel Art - 16-Bit RPG",
+  "description": "16-Bit RPG warm retro theme for Helium / Chromium matching DankMaterialShell",
+  "theme": {
+    "colors": {
+      "frame": [15, 11, 24],
+      "frame_inactive": [10, 7, 18],
+      "frame_incognito": [15, 11, 24],
+      "frame_incognito_inactive": [10, 7, 18],
+      "toolbar": [24, 20, 37],
+      "toolbar_button_icon": [242, 183, 5],
+      "tab_text": [254, 231, 97],
+      "tab_background_text": [139, 155, 180],
+      "tab_background_text_inactive": [86, 64, 100],
+      "bookmark_text": [254, 231, 97],
+      "omnibox_background": [34, 29, 51],
+      "omnibox_text": [254, 231, 97],
+      "ntp_background": [15, 11, 24],
+      "ntp_text": [254, 231, 97]
+    }
+  }
+}

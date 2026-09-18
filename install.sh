@@ -186,7 +186,32 @@ if [ -f "$KITTY_CONF" ]; then
     log_ok "Kitty font set to Monocraft (backup created at $KITTY_CONF.bak.$TIMESTAMP)."
 fi
 
-# 9. Restart DMS if running
+# 9. Configure Helium Browser Theme & Startpage
+if command -v helium-browser &>/dev/null || [ -d "$HOME/.config/net.imput.helium" ]; then
+    log_info "Configuring Helium Browser theme and animated startpage..."
+    HELIUM_DIR="$HOME/.config/net.imput.helium"
+    mkdir -p "$HELIUM_DIR/themes"
+    mkdir -p "$HELIUM_DIR/startpage"
+    cp -r "$SCRIPT_DIR/helium/themes/"* "$HELIUM_DIR/themes/"
+    cp -r "$SCRIPT_DIR/helium/startpage/"* "$HELIUM_DIR/startpage/"
+
+    # Setup flags to load extension automatically
+    HELIUM_FLAGS="$HOME/.config/helium-browser-flags.conf"
+    EXT_PATH="$HELIUM_DIR/startpage"
+    THEME_PATH="$HELIUM_DIR/themes/arcade-neon"
+    LOAD_EXT_FLAG="--load-extension=$EXT_PATH,$THEME_PATH"
+
+    if [ -f "$HELIUM_FLAGS" ]; then
+        if ! grep -q "\-\-load-extension=" "$HELIUM_FLAGS"; then
+            echo "$LOAD_EXT_FLAG" >> "$HELIUM_FLAGS"
+        fi
+    else
+        echo "$LOAD_EXT_FLAG" > "$HELIUM_FLAGS"
+    fi
+    log_ok "Helium Browser theme and animated startpage installed."
+fi
+
+# 10. Restart DMS if running
 log_info "Applying changes..."
 if systemctl --user is-active dms.service &>/dev/null; then
     systemctl --user restart dms.service
@@ -199,4 +224,4 @@ fi
 
 echo ""
 echo -e "${CLR_BOLD}${CLR_GREEN}Installation complete!${CLR_RESET}"
-echo -e "You can select variants (Arcade Neon, PICO-8, Game Boy, 16-Bit RPG) from the DMS theme settings."
+echo -e "DMS, Kitty, and Helium Browser have been configured with the Pixel Art theme."

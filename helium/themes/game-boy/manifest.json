@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "version": "1.0.0",
+  "name": "DMS Pixel Art - Game Boy",
+  "description": "Game Boy 4-shade phosphor theme for Helium / Chromium matching DankMaterialShell",
+  "theme": {
+    "colors": {
+      "frame": [8, 32, 8],
+      "frame_inactive": [5, 22, 5],
+      "frame_incognito": [8, 32, 8],
+      "frame_incognito_inactive": [5, 22, 5],
+      "toolbar": [15, 56, 15],
+      "toolbar_button_icon": [139, 172, 15],
+      "tab_text": [155, 188, 15],
+      "tab_background_text": [139, 172, 15],
+      "tab_background_text_inactive": [48, 98, 48],
+      "bookmark_text": [155, 188, 15],
+      "omnibox_background": [30, 77, 30],
+      "omnibox_text": [155, 188, 15],
+      "ntp_background": [8, 32, 8],
+      "ntp_text": [155, 188, 15]
+    }
+  }
+}
