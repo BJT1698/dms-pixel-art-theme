@@ -85,7 +85,8 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 ├── icons/                      # 16x16 SVG pixel art UI icons
 ├── dms-components/
 │   ├── DankIcon.qml            # Custom QML component for 1:1 pixel icon rendering
-│   └── StyledText.qml          # Crisp native font rendering with anti-aliasing disabled
+│   ├── StyledText.qml          # Crisp native font rendering with anti-aliasing disabled
+│   └── Appearance.qml          # Scaled typography metrics for pixel fonts
 ├── wallpapers/
 │   └── pixel_art_neon_horizon.jpg
 ├── plymouth/                   # Plymouth boot splash theme

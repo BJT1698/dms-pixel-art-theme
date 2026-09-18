@@ -76,10 +76,12 @@ mkdir -p "$DMS_UI_DIR/assets/pixel-icons"
 cp -r "$SCRIPT_DIR/icons/"* "$DMS_UI_DIR/DankCommon/assets/pixel-icons/"
 cp -r "$SCRIPT_DIR/icons/"* "$DMS_UI_DIR/assets/pixel-icons/"
 
-# Copy custom DankIcon.qml and StyledText.qml
+# Copy custom DankIcon.qml, StyledText.qml, and Appearance.qml
 mkdir -p "$DMS_UI_DIR/DankCommon/Widgets"
+mkdir -p "$DMS_UI_DIR/DankCommon/Common"
 cp "$SCRIPT_DIR/dms-components/DankIcon.qml" "$DMS_UI_DIR/DankCommon/Widgets/DankIcon.qml"
 cp "$SCRIPT_DIR/dms-components/StyledText.qml" "$DMS_UI_DIR/DankCommon/Widgets/StyledText.qml"
+cp "$SCRIPT_DIR/dms-components/Appearance.qml" "$DMS_UI_DIR/DankCommon/Common/Appearance.qml"
 if [ -d "$DMS_UI_DIR/Widgets" ]; then
     cp "$SCRIPT_DIR/dms-components/DankIcon.qml" "$DMS_UI_DIR/Widgets/DankIcon.qml"
     cp "$SCRIPT_DIR/dms-components/StyledText.qml" "$DMS_UI_DIR/Widgets/StyledText.qml"
@@ -168,6 +170,8 @@ if "barConfigs" in data and isinstance(data["barConfigs"], list) and len(data["b
         bar["widgetOutlineEnabled"] = False
         bar["shadowIntensity"] = 0
         bar["shadowOpacity"] = 0
+        bar["fontScale"] = 1.25
+        bar["iconScale"] = 1.0
 
 with open(settings_path, 'w', encoding='utf-8') as f:
     json.dump(data, f, indent=2)
