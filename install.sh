@@ -218,7 +218,30 @@ mkdir -p "$NVIM_PACK_DIR"
 cp -r "$SCRIPT_DIR/neovim/"* "$NVIM_PACK_DIR/"
 log_ok "Neovim plugin installed to $NVIM_PACK_DIR."
 
-# 11. Restart DMS if running
+# 11. Configure DMS Greeter (Fonts, Icons & UI)
+if command -v dms-greeter &>/dev/null; then
+    log_info "Configuring DMS Greeter pixel art UI, fonts and icons..."
+    GREETER_UI_DIR="$HOME/.config/DankMaterialShell/greeter-ui"
+    mkdir -p "$GREETER_UI_DIR"
+    cp -r "$SCRIPT_DIR/greeter/"* "$GREETER_UI_DIR/"
+    chmod -R g+rX "$GREETER_UI_DIR" || true
+    setfacl -R -m group:greeter:r-x "$GREETER_UI_DIR" 2>/dev/null || true
+    setfacl -R -d -m group:greeter:r-x "$GREETER_UI_DIR" 2>/dev/null || true
+
+    # Update greetd config.toml if accessible
+    GREETD_CONF="/etc/greetd/config.toml"
+    if [ -w "$GREETD_CONF" ]; then
+        if grep -q "dms-greeter" "$GREETD_CONF" && ! grep -q "\-c " "$GREETD_CONF"; then
+            sed -i "s|dms-greeter |dms-greeter -c $GREETER_UI_DIR |" "$GREETD_CONF"
+        fi
+    fi
+
+    # Sync profile slot
+    dms-greeter sync --profile >/dev/null 2>&1 || true
+    log_ok "DMS Greeter pixel art theme, fonts, and icons configured."
+fi
+
+# 12. Restart DMS if running
 log_info "Applying changes..."
 if systemctl --user is-active dms.service &>/dev/null; then
     systemctl --user restart dms.service
@@ -231,4 +254,4 @@ fi
 
 echo ""
 echo -e "${CLR_BOLD}${CLR_GREEN}Installation complete!${CLR_RESET}"
-echo -e "DMS, Kitty, Helium Browser, and Neovim have been configured with the Pixel Art theme."
+echo -e "DMS, Kitty, Helium Browser, Neovim, and Greeter have been configured with the Pixel Art theme."

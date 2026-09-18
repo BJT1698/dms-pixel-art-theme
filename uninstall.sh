@@ -75,7 +75,19 @@ if [ -d "$NVIM_PACK_DIR" ]; then
     log_ok "Neovim plugin removed."
 fi
 
-# 6. Restore or Reset DMS Settings
+# 6. Clean up Greeter UI
+GREETER_UI_DIR="$HOME/.config/DankMaterialShell/greeter-ui"
+if [ -d "$GREETER_UI_DIR" ]; then
+    log_info "Removing Greeter pixel art UI..."
+    rm -rf "$GREETER_UI_DIR"
+    GREETD_CONF="/etc/greetd/config.toml"
+    if [ -w "$GREETD_CONF" ]; then
+        sed -i "s| -c $GREETER_UI_DIR||g" "$GREETD_CONF"
+    fi
+    log_ok "Greeter UI removed and greetd configuration restored."
+fi
+
+# 7. Restore or Reset DMS Settings
 DMS_CONFIG_DIR="$HOME/.config/DankMaterialShell"
 SETTINGS_FILE="$DMS_CONFIG_DIR/settings.json"
 LATEST_BACKUP=$(ls -t "$DMS_CONFIG_DIR"/settings.json.bak.* 2>/dev/null | head -n 1 || true)
@@ -108,7 +120,7 @@ EOF
     log_ok "Settings reset."
 fi
 
-# 7. Restore Kitty Configuration
+# 8. Restore Kitty Configuration
 KITTY_CONF="$HOME/.config/kitty/kitty.conf"
 KITTY_BACKUP=$(ls -t "$HOME/.config/kitty"/kitty.conf.bak.* 2>/dev/null | head -n 1 || true)
 if [ -n "$KITTY_BACKUP" ] && [ -f "$KITTY_BACKUP" ]; then
@@ -117,7 +129,7 @@ if [ -n "$KITTY_BACKUP" ] && [ -f "$KITTY_BACKUP" ]; then
     log_ok "Kitty configuration restored."
 fi
 
-# 8. Restart DMS
+# 9. Restart DMS
 log_info "Restarting DankMaterialShell..."
 if systemctl --user is-active dms.service &>/dev/null; then
     systemctl --user restart dms.service

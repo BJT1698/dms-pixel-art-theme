@@ -1,8 +1,8 @@
 # DankMaterialShell Pixel Art Theme
 
-A comprehensive retro Pixel Art theme and environment setup for [DankMaterialShell](https://github.com/AvengeMedia/DankMaterialShell), [Helium Browser](https://github.com/imputnet/helium-linux), and [Neovim](https://neovim.io) on Linux (Wayland / Niri / Hyprland).
+A comprehensive retro Pixel Art theme and environment setup for [DankMaterialShell](https://github.com/AvengeMedia/DankMaterialShell), [DMS Greeter](https://github.com/AvengeMedia/dank-greeter), [Helium Browser](https://github.com/imputnet/helium-linux), and [Neovim](https://neovim.io) on Linux (Wayland / Niri / Hyprland).
 
-Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color palettes, matching terminal typography, seamless bar docking, browser themes, an animated synthwave pixel art startpage, and a native Neovim colorscheme plugin.
+Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color palettes, matching terminal typography, seamless bar docking, browser themes, an animated synthwave pixel art startpage, a native Neovim colorscheme plugin, and pixel art greeter login screen.
 
 ---
 
@@ -20,6 +20,9 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 - **Pixel UI Icons**:
   - Over 70 handcrafted white 16x16 SVG pixel icons for status bar controls (WiFi, Bluetooth, Battery, Volume, Notifications, Settings, Power, etc.).
   - Custom `DankIcon` QML component with 1:1 aspect-ratio preservation and dynamic theme colorization.
+- **DMS Greeter (Login Screen)**:
+  - Pixel art font (Silkscreen) and SVG pixel icons embedded in the greeter UI.
+  - Automatically synced with DMS themes, wallpapers, and zero corner radius.
 - **Helium Browser Integration**:
   - **4 Matching Browser Themes**: Native Chromium/Helium theme manifests for Arcade Neon, PICO-8, Game Boy, and 16-Bit RPG.
   - **Animated Pixel Art Startpage (New Tab)**:
@@ -32,7 +35,7 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
   - Native Lua colorscheme supporting all 4 palettes.
   - Full highlight coverage for Treesitter, LSP diagnostics, NvimTree, CMP, Alpha dashboard, Telescope, Which-Key, and ToggleTerm.
   - Transparent background support out of the box.
-  - Included Lualine statusline theme.
+  - Included Lualine statusline theme and animated retro synthwave welcome page for `alpha-nvim`.
 - **Sharp Geometry**:
   - Complete removal of border radius across the bar, popups, and widgets (`cornerRadius: 0`).
   - Bar configured as a docked edge strip with no padding or backgrounds.
@@ -58,6 +61,10 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 │   └── DankIcon.qml            # Custom QML component for pixel icon rendering
 ├── wallpapers/
 │   └── pixel_art_neon_horizon.jpg
+├── greeter/                    # DMS Greeter UI with pixel icons and fonts
+│   ├── DankCommon/
+│   ├── Modules/
+│   └── shell.qml
 ├── helium/
 │   ├── themes/                 # Helium / Chromium browser themes
 │   │   ├── arcade-neon/        # Arcade Neon theme manifest
@@ -72,16 +79,7 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 │       └── fonts/              # Embedded pixel typography
 ├── neovim/                     # Neovim colorscheme plugin
 │   ├── colors/                 # Color entry points
-│   │   ├── pixel-art.lua
-│   │   ├── pixel-art-neon.lua
-│   │   ├── pixel-art-pico8.lua
-│   │   ├── pixel-art-gameboy.lua
-│   │   └── pixel-art-snes.lua
-│   └── lua/pixel-art/          # Core plugin modules
-│       ├── init.lua
-│       ├── palette.lua
-│       ├── highlights.lua
-│       └── lualine.lua
+│   └── lua/pixel-art/          # Core plugin modules & dashboard animation
 └── configs/
     ├── dms-settings.json       # Reference DMS configuration
     ├── kitty.conf              # Reference Kitty terminal config
@@ -95,7 +93,7 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 
 - **DankMaterialShell** installed on your system.
 - **Dependencies**: `git`, `python3`, `fontconfig` (`fc-cache`).
-- **Optional**: [Helium Browser](https://github.com/imputnet/helium-linux), [Neovim](https://neovim.io), [Kitty](https://sw.kovidgoyal.net/kitty/) terminal, [Niri](https://github.com/YaLTeR/niri) window manager.
+- **Optional**: [DMS Greeter](https://github.com/AvengeMedia/dank-greeter) with [greetd](https://github.com/kennylevinsen/greetd), [Helium Browser](https://github.com/imputnet/helium-linux), [Neovim](https://neovim.io), [Kitty](https://sw.kovidgoyal.net/kitty/) terminal, [Niri](https://github.com/YaLTeR/niri) window manager.
 
 ---
 
@@ -119,7 +117,29 @@ Run the installation script:
 8. Configures Kitty with `Monocraft` font (with automatic backup).
 9. Installs Helium Browser themes and animated startpage into `~/.config/net.imput.helium/` and enables them via `~/.config/helium-browser-flags.conf`.
 10. Installs the Neovim colorscheme plugin to `~/.local/share/nvim/site/pack/pixel-art/start/pixel-art.nvim`.
-11. Restarts DankMaterialShell to apply changes.
+11. Sets up the pixel art greeter UI in `~/.config/DankMaterialShell/greeter-ui` and updates `/etc/greetd/config.toml`.
+12. Restarts DankMaterialShell to apply changes.
+
+---
+
+## DMS Greeter (Login Screen) Setup
+
+The pixel art greeter is configured by pointing `dms-greeter` to the customized UI directory in `/etc/greetd/config.toml`:
+
+```toml
+[terminal]
+vt = 1
+
+[default_session]
+command = "/usr/bin/dms-greeter --command niri --cache-dir /var/cache/dms-greeter -c /home/USER/.config/DankMaterialShell/greeter-ui -C /etc/greetd/niri/config.kdl"
+user = "greeter"
+```
+
+To sync your current theme and settings to your login profile:
+
+```bash
+dms-greeter sync --profile
+```
 
 ---
 
@@ -288,7 +308,7 @@ window-rule {
 
 ## Switching Variants
 
-### In DankMaterialShell:
+### In DankMaterialShell & Greeter:
 Open DankMaterialShell Settings -> Custom Theme, or edit `theme.json` to swap palettes:
 1. **Arcade Neon**
 2. **PICO-8**
