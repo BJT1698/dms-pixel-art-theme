@@ -1,0 +1,11 @@
+// Niri pixel art configuration (zero rounded corners)
+prefer-no-csd
+
+layout {
+    geometry-corner-radius 0
+}
+
+window-rule {
+    geometry-corner-radius 0
+    clip-to-geometry true
+}
