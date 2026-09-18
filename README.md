@@ -6,6 +6,22 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 
 ---
 
+## Showcase
+
+### Desktop & DankBar
+![Desktop and DankBar](docs/screenshots/desktop_dankbar.png)
+
+### Helium Browser Animated Startpage
+![Helium Browser Startpage](docs/screenshots/helium_startpage.png)
+
+### Neovim Animated Synthwave Dashboard
+![Neovim Animated Dashboard](docs/screenshots/neovim_dashboard.png)
+
+### Neovim Syntax Highlighting
+![Neovim Syntax Highlighting](docs/screenshots/neovim_syntax.png)
+
+---
+
 ## Features
 
 - **4 Custom Color Schemes**:
@@ -53,6 +69,8 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 ├── install.sh                  # Automated installer script
 ├── uninstall.sh                # Automated uninstaller script
 ├── README.md                   # Documentation
+├── docs/
+│   └── screenshots/            # Showcase screenshots
 ├── theme/
 │   └── theme.json              # DMS theme file with all 4 variants
 ├── fonts/                      # Pixel fonts (Silkscreen, Monocraft, etc.)
