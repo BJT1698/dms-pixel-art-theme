@@ -129,7 +129,27 @@ if [ -n "$KITTY_BACKUP" ] && [ -f "$KITTY_BACKUP" ]; then
     log_ok "Kitty configuration restored."
 fi
 
-# 9. Restart DMS
+# 9. Clean up Plymouth Theme
+if [ -d "/usr/share/plymouth/themes/cachyos-pixel-art" ]; then
+    if [ -w "/usr/share/plymouth/themes" ] || [ "$(id -u)" -eq 0 ]; then
+        log_info "Removing Plymouth pixel art theme..."
+        rm -rf "/usr/share/plymouth/themes/cachyos-pixel-art"
+        if command -v plymouth-set-default-theme &>/dev/null; then
+            if [ -d "/usr/share/plymouth/themes/cachyos-bootanimation" ]; then
+                plymouth-set-default-theme -R cachyos-bootanimation 2>/dev/null || plymouth-set-default-theme cachyos-bootanimation 2>/dev/null || true
+            elif [ -d "/usr/share/plymouth/themes/bgrt" ]; then
+                plymouth-set-default-theme -R bgrt 2>/dev/null || plymouth-set-default-theme bgrt 2>/dev/null || true
+            fi
+        fi
+        log_ok "Plymouth theme removed and restored to default."
+    else
+        log_warn "To remove the Plymouth theme manually, run:"
+        log_warn "  sudo rm -rf /usr/share/plymouth/themes/cachyos-pixel-art"
+        log_warn "  sudo plymouth-set-default-theme -R cachyos-bootanimation"
+    fi
+fi
+
+# 10. Restart DMS
 log_info "Restarting DankMaterialShell..."
 if systemctl --user is-active dms.service &>/dev/null; then
     systemctl --user restart dms.service
@@ -142,3 +162,4 @@ fi
 
 echo ""
 echo -e "${CLR_BOLD}${CLR_GREEN}Uninstallation complete!${CLR_RESET}"
+

@@ -1,8 +1,8 @@
 # DankMaterialShell Pixel Art Theme
 
-A comprehensive retro Pixel Art theme and environment setup for [DankMaterialShell](https://github.com/AvengeMedia/DankMaterialShell), [DMS Greeter](https://github.com/AvengeMedia/dank-greeter), [Helium Browser](https://github.com/imputnet/helium-linux), and [Neovim](https://neovim.io) on Linux (Wayland / Niri / Hyprland).
+A comprehensive retro Pixel Art theme and environment setup for [DankMaterialShell](https://github.com/AvengeMedia/DankMaterialShell), [DMS Greeter](https://github.com/AvengeMedia/dank-greeter), [Helium Browser](https://github.com/imputnet/helium-linux), [Neovim](https://neovim.io), and [CachyOS / Plymouth](https://wiki.archlinux.org/title/Plymouth) on Linux (Wayland / Niri / Hyprland).
 
-Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color palettes, matching terminal typography, seamless bar docking, browser themes, an animated synthwave pixel art startpage, a native Neovim colorscheme plugin, and pixel art greeter login screen.
+Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color palettes, matching terminal typography, seamless bar docking, browser themes, an animated synthwave pixel art startpage, a native Neovim colorscheme plugin, pixel art greeter login screen, and an animated CachyOS pixel art boot splash theme.
 
 ---
 
@@ -19,6 +19,9 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 
 ### Neovim Syntax Highlighting
 ![Neovim Syntax Highlighting](docs/screenshots/neovim_syntax.png)
+
+### CachyOS Pixel Art Plymouth Boot Animation
+![CachyOS Pixel Art Boot Animation](docs/screenshots/cachyos_boot.gif)
 
 ---
 
@@ -39,6 +42,11 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 - **DMS Greeter (Login Screen)**:
   - Pixel art font (Silkscreen) and SVG pixel icons embedded in the greeter UI.
   - Automatically synced with DMS themes, wallpapers, and zero corner radius.
+- **CachyOS Pixel Art Boot Splash (Plymouth)**:
+  - Custom 48-frame looping neon pulse animation of the official CachyOS logo in 8-bit / 16-bit pixel art.
+  - 16-frame rotating neon pixel progress spinner (throbber).
+  - Pixel art disk encryption / password prompt dialogs with custom boxes, bullet sprites, and lock indicators.
+  - Native Plymouth `two-step` engine integration with Silkscreen typography and deep synthwave `#07080e` background.
 - **Helium Browser Integration**:
   - **4 Matching Browser Themes**: Native Chromium/Helium theme manifests for Arcade Neon, PICO-8, Game Boy, and 16-Bit RPG.
   - **Animated Pixel Art Startpage (New Tab)**:
@@ -70,7 +78,7 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 ├── uninstall.sh                # Automated uninstaller script
 ├── README.md                   # Documentation
 ├── docs/
-│   └── screenshots/            # Showcase screenshots
+│   └── screenshots/            # Showcase screenshots & GIF animations
 ├── theme/
 │   └── theme.json              # DMS theme file with all 4 variants
 ├── fonts/                      # Pixel fonts (Silkscreen, Monocraft, etc.)
@@ -79,6 +87,13 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 │   └── DankIcon.qml            # Custom QML component for pixel icon rendering
 ├── wallpapers/
 │   └── pixel_art_neon_horizon.jpg
+├── plymouth/                   # Plymouth boot splash theme
+│   └── cachyos-pixel-art/      # CachyOS pixel art boot animation and assets
+│       ├── cachyos-pixel-art.plymouth
+│       ├── cachyos-pixel-art.grub
+│       ├── animation-*.png     # 48-frame logo pulse sequence
+│       ├── throbber-*.png      # 16-frame spinner animation
+│       └── *.png               # UI sprites (bullet, entry, lock, capslock)
 ├── greeter/                    # DMS Greeter UI with pixel icons and fonts
 │   ├── DankCommon/
 │   ├── Modules/
@@ -111,7 +126,7 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
 
 - **DankMaterialShell** installed on your system.
 - **Dependencies**: `git`, `python3`, `fontconfig` (`fc-cache`).
-- **Optional**: [DMS Greeter](https://github.com/AvengeMedia/dank-greeter) with [greetd](https://github.com/kennylevinsen/greetd), [Helium Browser](https://github.com/imputnet/helium-linux), [Neovim](https://neovim.io), [Kitty](https://sw.kovidgoyal.net/kitty/) terminal, [Niri](https://github.com/YaLTeR/niri) window manager.
+- **Optional**: [Plymouth](https://wiki.archlinux.org/title/Plymouth) boot splash, [DMS Greeter](https://github.com/AvengeMedia/dank-greeter) with [greetd](https://github.com/kennylevinsen/greetd), [Helium Browser](https://github.com/imputnet/helium-linux), [Neovim](https://neovim.io), [Kitty](https://sw.kovidgoyal.net/kitty/) terminal, [Niri](https://github.com/YaLTeR/niri) window manager.
 
 ---
 
@@ -136,7 +151,35 @@ Run the installation script:
 9. Installs Helium Browser themes and animated startpage into `~/.config/net.imput.helium/` and enables them via `~/.config/helium-browser-flags.conf`.
 10. Installs the Neovim colorscheme plugin to `~/.local/share/nvim/site/pack/pixel-art/start/pixel-art.nvim`.
 11. Sets up the pixel art greeter UI in `~/.config/DankMaterialShell/greeter-ui` and updates `/etc/greetd/config.toml`.
-12. Restarts DankMaterialShell to apply changes.
+12. Configures the CachyOS Plymouth boot splash theme in `/usr/share/plymouth/themes/cachyos-pixel-art`.
+13. Restarts DankMaterialShell to apply changes.
+
+---
+
+## CachyOS Plymouth Boot Animation Setup
+
+### Installing the Plymouth Theme
+
+To install and enable the boot animation manually:
+
+```bash
+# 1. Copy the theme directory to the system Plymouth themes folder
+sudo cp -r plymouth/cachyos-pixel-art /usr/share/plymouth/themes/
+
+# 2. Set cachyos-pixel-art as the default theme and rebuild the initramfs
+sudo plymouth-set-default-theme -R cachyos-pixel-art
+```
+
+### Testing the Plymouth Animation Live
+
+You can preview the animation directly in your active desktop session without rebooting:
+
+```bash
+sudo plymouthd
+sudo plymouth --show-splash
+sleep 5
+sudo plymouth quit
+```
 
 ---
 
@@ -297,7 +340,13 @@ In DMS Settings (`~/.config/DankMaterialShell/settings.json` or Settings UI):
 - **Icon Theme Light**: `pixora`
 - **DankBar Settings**: Position: Bottom (1), Attach to edge: Yes, Inner Padding: 0, Spacing: 0, No Background: Yes, Widget Transparency: 0.
 
-### 6. Kitty Terminal
+### 6. Plymouth Boot Theme
+```bash
+sudo cp -r plymouth/cachyos-pixel-art /usr/share/plymouth/themes/
+sudo plymouth-set-default-theme -R cachyos-pixel-art
+```
+
+### 7. Kitty Terminal
 In `~/.config/kitty/kitty.conf`:
 ```conf
 font_family      Monocraft
@@ -307,7 +356,7 @@ bold_italic_font auto
 font_size        12.0
 ```
 
-### 7. Niri Window Manager (Optional)
+### 8. Niri Window Manager (Optional)
 In `~/.config/niri/config.kdl`:
 ```kdl
 prefer-no-csd

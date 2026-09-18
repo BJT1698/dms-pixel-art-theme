@@ -1,0 +1,56 @@
+[Plymouth Theme]
+Name=cachyos-pixel-art
+Description=CachyOS synthwave pixel art boot theme
+ModuleName=two-step
+
+[two-step]
+Font=Silkscreen 12
+TitleFont=Silkscreen Bold 24
+ImageDir=/usr/share/plymouth/themes/cachyos-pixel-art
+DialogHorizontalAlignment=.5
+DialogVerticalAlignment=.5
+TitleHorizontalAlignment=.5
+TitleVerticalAlignment=.382
+HorizontalAlignment=.5
+VerticalAlignment=.5
+Transition=none
+TransitionDuration=0.0
+BackgroundStartColor=0x07080e
+BackgroundEndColor=0x07080e
+ProgressBarBackgroundColor=0x1f2335
+ProgressBarForegroundColor=0x00f0ff
+DialogClearsFirmwareBackground=true
+MessageBelowAnimation=true
+
+[boot-up]
+UseEndAnimation=true
+UseFirmwareBackground=false
+
+[shutdown]
+UseEndAnimation=false
+UseFirmwareBackground=false
+
+[reboot]
+UseEndAnimation=false
+UseFirmwareBackground=false
+
+[updates]
+SuppressMessages=true
+ProgressBarShowPercentComplete=true
+UseProgressBar=true
+_Title=Installing Updates...
+_SubTitle=Do not turn off your computer
+
+[system-upgrade]
+SuppressMessages=true
+ProgressBarShowPercentComplete=true
+UseProgressBar=true
+_Title=Upgrading System...
+_SubTitle=Do not turn off your computer
+
+[firmware-upgrade]
+SuppressMessages=true
+ProgressBarShowPercentComplete=true
+UseProgressBar=true
+_Title=Upgrading Firmware...
+_SubTitle=Do not turn off your computer

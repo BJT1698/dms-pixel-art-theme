@@ -241,7 +241,26 @@ if command -v dms-greeter &>/dev/null; then
     log_ok "DMS Greeter pixel art theme, fonts, and icons configured."
 fi
 
-# 12. Restart DMS if running
+# 12. Configure CachyOS Pixel Art Plymouth Boot Splash (if Plymouth is present)
+if [ -d "$SCRIPT_DIR/plymouth/cachyos-pixel-art" ]; then
+    log_info "Configuring Plymouth boot splash theme..."
+    PLYMOUTH_THEMES_DIR="/usr/share/plymouth/themes"
+    if [ -w "$PLYMOUTH_THEMES_DIR" ] || [ "$(id -u)" -eq 0 ]; then
+        mkdir -p "$PLYMOUTH_THEMES_DIR/cachyos-pixel-art"
+        cp -r "$SCRIPT_DIR/plymouth/cachyos-pixel-art/"* "$PLYMOUTH_THEMES_DIR/cachyos-pixel-art/"
+        if command -v plymouth-set-default-theme &>/dev/null; then
+            plymouth-set-default-theme -R cachyos-pixel-art 2>/dev/null || plymouth-set-default-theme cachyos-pixel-art 2>/dev/null || true
+        fi
+        log_ok "Plymouth cachyos-pixel-art theme installed."
+    else
+        log_warn "Sudo permissions needed to install Plymouth theme to $PLYMOUTH_THEMES_DIR/."
+        log_info "To install Plymouth boot animation manually, run:"
+        log_info "  sudo cp -r $SCRIPT_DIR/plymouth/cachyos-pixel-art /usr/share/plymouth/themes/"
+        log_info "  sudo plymouth-set-default-theme -R cachyos-pixel-art"
+    fi
+fi
+
+# 13. Restart DMS if running
 log_info "Applying changes..."
 if systemctl --user is-active dms.service &>/dev/null; then
     systemctl --user restart dms.service
@@ -254,4 +273,5 @@ fi
 
 echo ""
 echo -e "${CLR_BOLD}${CLR_GREEN}Installation complete!${CLR_RESET}"
-echo -e "DMS, Kitty, Helium Browser, Neovim, and Greeter have been configured with the Pixel Art theme."
+echo -e "DMS, Kitty, Helium Browser, Neovim, Greeter, and Plymouth have been configured with the Pixel Art theme."
+
