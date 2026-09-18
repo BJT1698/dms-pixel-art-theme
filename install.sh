@@ -76,11 +76,13 @@ mkdir -p "$DMS_UI_DIR/assets/pixel-icons"
 cp -r "$SCRIPT_DIR/icons/"* "$DMS_UI_DIR/DankCommon/assets/pixel-icons/"
 cp -r "$SCRIPT_DIR/icons/"* "$DMS_UI_DIR/assets/pixel-icons/"
 
-# Copy custom DankIcon.qml
+# Copy custom DankIcon.qml and StyledText.qml
 mkdir -p "$DMS_UI_DIR/DankCommon/Widgets"
 cp "$SCRIPT_DIR/dms-components/DankIcon.qml" "$DMS_UI_DIR/DankCommon/Widgets/DankIcon.qml"
+cp "$SCRIPT_DIR/dms-components/StyledText.qml" "$DMS_UI_DIR/DankCommon/Widgets/StyledText.qml"
 if [ -d "$DMS_UI_DIR/Widgets" ]; then
     cp "$SCRIPT_DIR/dms-components/DankIcon.qml" "$DMS_UI_DIR/Widgets/DankIcon.qml"
+    cp "$SCRIPT_DIR/dms-components/StyledText.qml" "$DMS_UI_DIR/Widgets/StyledText.qml"
 fi
 
 # Configure environment variable for DMS UI
@@ -140,6 +142,7 @@ data["cornerRadius"] = 0
 data["niriLayoutRadiusOverride"] = 0
 data["fontFamily"] = "Silkscreen"
 data["monoFontFamily"] = "Silkscreen"
+data["textRenderType"] = 1
 data["iconThemeDark"] = "pixora-dark"
 data["iconThemeLight"] = "pixora"
 data["enableRippleEffects"] = False

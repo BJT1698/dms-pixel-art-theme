@@ -8,7 +8,7 @@ Item {
     id: root
 
     property string name: ""
-    property real size: Style.fontSizeMedium
+    property real size: 16
     property color color: Style.surfaceText
     property bool filled: false
     property real fill: filled ? 1.0 : 0.0
@@ -19,8 +19,8 @@ Item {
     readonly property real fillStep: Math.round(fill * 4) / 4
     property bool smoothTransform: false
 
-    implicitWidth: Math.round(size)
-    implicitHeight: Math.round(size)
+    implicitWidth: effectiveIconSize
+    implicitHeight: effectiveIconSize
 
     signal rotationCompleted
 
@@ -33,11 +33,24 @@ Item {
             "space_dashboard": "space_dashboard",
             "overview": "overview",
             "apps": "apps",
+            "calendar_today": "calendar_today",
+            "calendar_month": "calendar_month",
+            "event": "calendar_today",
             "music_note": "music_note",
             "music_off": "music_off",
             "image": "image",
             "wallpaper": "wallpaper",
             "wb_sunny": "wb_sunny",
+            "weather": "wb_sunny",
+            "clear_day": "wb_sunny",
+            "clear_night": "nightlight",
+            "partly_cloudy_day": "wb_sunny",
+            "partly_cloudy_night": "nightlight",
+            "foggy": "cloud",
+            "rainy": "cloud",
+            "cloudy_snowing": "cloud",
+            "snowing_heavy": "cloud",
+            "thunderstorm": "cloud",
             "light_mode": "light_mode",
             "dark_mode": "dark_mode",
             "nightlight": "nightlight",
@@ -52,10 +65,22 @@ Item {
             "bluetooth_connected": "bluetooth_connected",
             "bluetooth_disabled": "bluetooth_disabled",
             "battery_full": "battery_full",
+            "battery_6_bar": "battery_6_bar",
             "battery_5_bar": "battery_5_bar",
+            "battery_4_bar": "battery_4_bar",
+            "battery_3_bar": "battery_3_bar",
+            "battery_2_bar": "battery_2_bar",
+            "battery_1_bar": "battery_1_bar",
+            "battery_alert": "battery_alert",
             "battery_horiz_075": "battery_horiz_075",
             "battery_std": "battery_std",
             "battery_charging_full": "battery_charging_full",
+            "battery_charging_90": "battery_charging_90",
+            "battery_charging_80": "battery_charging_80",
+            "battery_charging_60": "battery_charging_60",
+            "battery_charging_50": "battery_charging_50",
+            "battery_charging_30": "battery_charging_30",
+            "battery_charging_20": "battery_charging_20",
             "volume_up": "volume_up",
             "volume_down": "volume_down",
             "volume_off": "volume_off",
@@ -73,8 +98,8 @@ Item {
             "content_copy": "content_copy",
             "content_paste": "content_paste",
             "assignment": "assignment",
-            "cpu": "cpu",
-            "developer_board": "developer_board",
+            "cpu": "memory",
+            "developer_board": "memory",
             "memory": "memory",
             "search": "search",
             "close": "close",
@@ -104,9 +129,28 @@ Item {
             "keyboard": "keyboard",
             "terminal": "terminal",
             "monitor": "monitor",
-            "cloud": "cloud"
+            "cloud": "cloud",
+            "sports_esports": "sports_esports",
+            "vpn_lock": "vpn_lock",
+            "vpn_key_off": "vpn_key_off",
+            "camera_video": "camera_video",
+            "screen_share": "screen_share",
+            "screen_record": "screen_record",
+            "network_check": "network_check",
+            "print": "print",
+            "do_not_disturb_on": "do_not_disturb_on",
+            "motion_sensor_active": "motion_sensor_active",
+            "hidden_horizontal": "hidden_horizontal",
+            "hidden_vertical": "hidden_vertical"
         };
         return map[n] || n;
+    }
+
+    readonly property int effectiveIconSize: {
+        const s = Math.round(root.size);
+        if (s >= 32) return 32;
+        if (s >= 24) return 24;
+        return 16;
     }
 
     readonly property string pixelIconSource: mappedIconName ? Qt.resolvedUrl("../assets/pixel-icons/" + mappedIconName + ".svg") : ""
@@ -115,11 +159,11 @@ Item {
     Image {
         id: pixelImage
         anchors.centerIn: parent
-        width: Math.round(root.size)
-        height: Math.round(root.size)
+        width: root.effectiveIconSize
+        height: root.effectiveIconSize
         source: root.pixelIconSource
-        sourceSize.width: Math.round(root.size) * 2
-        sourceSize.height: Math.round(root.size) * 2
+        sourceSize.width: root.effectiveIconSize >= 24 ? 24 : 16
+        sourceSize.height: root.effectiveIconSize >= 24 ? 24 : 16
         fillMode: Image.PreserveAspectFit
         smooth: false
         mipmap: false
@@ -130,6 +174,7 @@ Item {
         layer.smooth: false
         layer.mipmap: false
         layer.effect: MultiEffect {
+            autoPaddingEnabled: false
             colorization: 1.0
             colorizationColor: root.color
         }
@@ -148,7 +193,9 @@ Item {
         color: root.color
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
-        renderType: root.smoothTransform ? Text.QtRendering : Text.NativeRendering
+        renderType: Text.NativeRendering
+        antialiasing: false
+        smooth: false
 
         font.variableAxes: {
             "FILL": root.fillStep,
