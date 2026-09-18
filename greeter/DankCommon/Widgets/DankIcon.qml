@@ -148,9 +148,9 @@ Item {
 
     readonly property int effectiveIconSize: {
         const s = Math.round(root.size);
-        if (s >= 32) return 32;
-        if (s >= 24) return 24;
-        return 16;
+        if (s >= 36) return 48;
+        if (s >= 18) return 24;
+        return 24;
     }
 
     readonly property string pixelIconSource: mappedIconName ? Qt.resolvedUrl("../assets/pixel-icons/" + mappedIconName + ".svg") : ""
@@ -162,8 +162,8 @@ Item {
         width: root.effectiveIconSize
         height: root.effectiveIconSize
         source: root.pixelIconSource
-        sourceSize.width: root.effectiveIconSize >= 24 ? 24 : 16
-        sourceSize.height: root.effectiveIconSize >= 24 ? 24 : 16
+        sourceSize.width: 24
+        sourceSize.height: 24
         fillMode: Image.PreserveAspectFit
         smooth: false
         mipmap: false
