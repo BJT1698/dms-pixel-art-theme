@@ -37,7 +37,8 @@ Features sharp edges, custom pixel typography, pixel-perfect UI icons, 4 color p
   - **Monocraft**: True monospaced pixel font for Kitty terminal.
   - **Press Start 2P, Tiny5, VT323, PixeloidMono**: Included in the font pack.
 - **Pixel UI Icons**:
-  - Over 70 handcrafted white 16x16 SVG pixel icons for status bar controls (WiFi, Bluetooth, Battery, Volume, Notifications, Settings, Power, etc.).
+  - Over 1000+ handcrafted 24x24 SVG pixel art icons powered by [pixelarticons](https://github.com/halfmage/pixelarticons) by Gerrit Halfmann.
+  - Full icon mappings for status bar controls (WiFi, Bluetooth, Battery, Volume, Notifications, Settings, Power, Calendar, Media, Weather, etc.).
   - Custom `DankIcon` QML component with 1:1 aspect-ratio preservation and dynamic theme colorization.
 - **DMS Greeter (Login Screen)**:
   - Pixel art font (Silkscreen) and SVG pixel icons embedded in the greeter UI.
@@ -402,6 +403,17 @@ To restore previous settings, fonts, and configurations:
 
 ---
 
+## Credits & Acknowledgements
+
+- **[pixelarticons](https://github.com/halfmage/pixelarticons)** by Gerrit Halfmann (halfmage) - MIT License (Icon library).
+- **[Pixora Icons](https://github.com/tsora1603/pixora-icons)** by tsora1603 - GPL-3.0 License (Application icon theme).
+- **[DankMaterialShell](https://github.com/AvengeMedia/DankMaterialShell)** by AvengeMedia.
+- **[Silkscreen Font](https://fonts.google.com/specimen/Silkscreen)** by Jason Kottke - SIL Open Font License.
+- **[Monocraft Font](https://github.com/IdreesInc/Monocraft)** by IdreesInc - SIL Open Font License.
+
+---
+
 ## License
 
 MIT License. See LICENSE file for details.
+
