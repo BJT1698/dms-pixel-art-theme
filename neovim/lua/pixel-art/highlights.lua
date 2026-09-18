@@ -189,11 +189,19 @@ function M.setup(c, opts)
     CmpItemKindSnippet = { fg = c.yellow },
     CmpItemKindText = { fg = c.fg },
 
-    -- Alpha Dashboard
+    -- Alpha Dashboard & Pixel Art Animation
     AlphaHeader = { fg = c.cyan, bold = true },
     AlphaButtons = { fg = c.pink },
     AlphaShortcut = { fg = c.yellow, bold = true },
     AlphaFooter = { fg = c.fg_dark },
+    PixelArtStars = { fg = c.fg_dark },
+    PixelArtSunTop = { fg = c.yellow, bold = true },
+    PixelArtSunMid = { fg = c.orange, bold = true },
+    PixelArtSunBot = { fg = c.pink, bold = true },
+    PixelArtMountains = { fg = c.purple },
+    PixelArtHorizon = { fg = c.pink, bold = true },
+    PixelArtGrid = { fg = c.cyan, bold = true },
+    PixelArtLogo = { fg = c.cyan, bold = true },
 
     -- ToggleTerm
     ToggleTermNormal = { fg = c.fg, bg = bg },

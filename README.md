@@ -153,6 +153,33 @@ Add the following spec to your Neovim plugin list (`init.lua` or `lua/plugins/th
 }
 ```
 
+### Animated Pixel Art Welcome Page (Alpha-nvim)
+
+`pixel-art.nvim` includes an animated retro synthwave pixel art header for `alpha-nvim` with smooth frame cycles, sun scanlines, starfield twinkle, and rolling perspective grid lines.
+
+To enable the animated dashboard in your `alpha-nvim` configuration:
+
+```lua
+{
+  "goolord/alpha-nvim",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  config = function()
+    local alpha = require("alpha")
+    local dashboard = require("alpha.themes.dashboard")
+
+    -- Enable Animated Pixel Art Header
+    local ok, pixel_dash = pcall(require, "pixel-art.dashboard")
+    if ok and pixel_dash then
+      pixel_dash.setup_alpha(dashboard, alpha)
+    end
+
+    alpha.setup(dashboard.opts)
+  end,
+}
+```
+
+The animation automatically pauses and consumes zero CPU whenever you navigate away from the dashboard buffer into normal editor buffers.
+
 ### Direct Colorscheme Commands
 
 You can load specific variants directly via Vim commands:
